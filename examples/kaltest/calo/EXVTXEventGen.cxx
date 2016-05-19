@@ -33,7 +33,7 @@ THelicalTrack EXVTXEventGen::GenerateHelix(Double_t pt,
    std::cout << "cosmin :" << cosmin << ", cosmax :" << cosmax << std::endl;
    Double_t dr  = __DR__;
    Double_t fi0 = __FI0__ + 2*TMath::Pi()*(gRandom->Uniform()-0.5);
-   fi0 = __FI0__;
+   //fi0 = __FI0__;
    Double_t cpa = 1. / pt;
    Double_t dz  = __DZ__;
    Double_t cs  = gRandom->Uniform(cosmin, cosmax);
@@ -123,7 +123,7 @@ void EXVTXEventGen::Swim(THelicalTrack &heltrk)
       if (ml.IsActive() && dynamic_cast<const EXVTXVKalDetector &>(ml.GetParent(kFALSE)).IsPowerOn()) {
          ml.ProcessHit(xx, *fHitBufPtr); // create hit point
 		 fHitVec.push_back(xx);
-		 xx.Print();
+		 //xx.Print();
       }
       if (lyr == nlayers - 1) break;
    }

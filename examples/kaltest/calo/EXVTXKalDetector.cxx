@@ -69,8 +69,8 @@ EXVTXKalDetector::EXVTXKalDetector(Int_t m)
    //static const Double_t sigmazeta = 1.44e-4;
    
    //
-   static const Double_t sigmaxi   = 1.5;
-   static const Double_t sigmazeta = 1.5;
+   static const Double_t sigmaxi   = 0.15;
+   static const Double_t sigmazeta = 0.15;
    //static const Double_t sigmaxi   = 5.;
    //static const Double_t sigmazeta = 5.;
 	

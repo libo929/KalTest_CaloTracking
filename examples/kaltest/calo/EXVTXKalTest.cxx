@@ -51,7 +51,7 @@ int main (Int_t argc, Char_t **argv)
       gROOT->SetBatch();   // batch mode without event display
    }
 
-   Double_t pt      =  5.;   // default Pt [GeV]
+   Double_t pt      = 10.;   // default Pt [GeV]
    Double_t t0in    = 14.;   // default tp [nsec]
    //Double_t cosmin  = -0.97; // default cos minimum [deg]
    Double_t cosmin  =  0; // default cos minimum [deg]
@@ -237,7 +237,7 @@ int main (Int_t argc, Char_t **argv)
       TVector3    x3 = h3.GetMeasLayer().HitToXv(h3);
       THelicalTrack helstart(x1, x2, x3, h1.GetBfield(), gkDir); // initial helix 
 
-	  cout << "Helix rho: " << helstart.GetRho() << endl;
+	  //cout << "Helix rho: " << helstart.GetRho() << endl;
 
       // ---------------------------
       //  Set dummy state to sited
@@ -250,30 +250,13 @@ int main (Int_t argc, Char_t **argv)
       svd(3,0) = 0.;                        // dz
       svd(4,0) = helstart.GetTanLambda();   // tan(lambda)
 
-#if 1
-      svd(1,0) = 3.14;      // phi0 
-      svd(2,0) = 0.1;       // kappa
-      svd(4,0) = 0.1;       // tan(lambda)  
-#endif
-
       if (kSdim == 6) svd(5,0) = 0.;        // t0
 
       static TKalMatrix C(kSdim,kSdim);
 
 	  for (Int_t i=0; i<kSdim; i++) {
-         //C(i,i) = 1.e2;   // dummy error matrix
-         //C(i,i) = 1.e1;   // dummy error matrix
-         //C(i,i) = 0.2;   // dummy error matrix
-
-		 //if(i==0||i==2||i==3)C(i,i) = 1.e-3;
-		 C(i,i) = 1.e-3;
+		 C(i,i) = 1.e4;
       }
-
-	  C(0,0) = 1.e-1;
-	  C(1,1) = 1.e-3;
-	  C(2,2) = 1.e-3;
-	  C(3,3) = 1.e-1;
-	  C(4,4) = 1.e-3;
 
       sited.Add(new TKalTrackState(svd,C,sited,TVKalSite::kPredicted));
       sited.Add(new TKalTrackState(svd,C,sited,TVKalSite::kFiltered));
@@ -302,12 +285,11 @@ int main (Int_t argc, Char_t **argv)
 	  Int_t siteDiscarded = 0;
 	  Int_t nsite = -1;
       while ((hitp = dynamic_cast<TVTrackHit *>(next()))) {
-		  cout << endl << "-------------site: " << ++nsite << endl;
+		  //cout << endl << "-------------site: " << ++nsite << endl;
 	   	  TKalTrackSite  &site = *new TKalTrackSite(*hitp); // new site
 		  hitVec.push_back(site.GetPivot());
 		  
          if (!kaltrack.AddAndFilter(site)) {               // filter it
-            cout << " site " << nsite << " is discarded!" << endl;
             delete &site;                        // delete it if failed
 			++siteDiscarded;
 			if(siteDiscarded>1) {

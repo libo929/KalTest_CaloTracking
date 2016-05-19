@@ -27,8 +27,10 @@ TNode *EXVTXVKalDetector::GetNodePtr()
 {
    if (!fgNodePtr) {
       new TRotMatrix("rotm","rotm", 10.,80.,10.,80.,10.,80.);
-      //new TTUBE("Det","Det","void",100.,100.,260.);
-      new TTUBE("Det","Det","void",2500.,2500.,2500.);
+
+      TTUBE* tube = new TTUBE("Det","Det","void",2500.,2500.,2500.);
+	  tube->SetLineColor(0);
+
       fgNodePtr = new TNode("World","World","Det",0.,0.,0.,"rotm");
    }
    return fgNodePtr;
