@@ -255,7 +255,7 @@ int main (Int_t argc, Char_t **argv)
       static TKalMatrix C(kSdim,kSdim);
 
 	  for (Int_t i=0; i<kSdim; i++) {
-		 C(i,i) = 1.e4;
+		C(i,i) = 1.e-4;
       }
 
       sited.Add(new TKalTrackState(svd,C,sited,TVKalSite::kPredicted));

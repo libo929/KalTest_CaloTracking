@@ -69,10 +69,10 @@ EXVTXKalDetector::EXVTXKalDetector(Int_t m)
    //static const Double_t sigmazeta = 1.44e-4;
    
    //
-   static const Double_t sigmaxi   = 0.15;
-   static const Double_t sigmazeta = 0.15;
-   //static const Double_t sigmaxi   = 5.;
-   //static const Double_t sigmazeta = 5.;
+   //static const Double_t sigmaxi   = 0.15;
+   //static const Double_t sigmazeta = 0.15;
+   static const Double_t sigmaxi   = 1.5;
+   static const Double_t sigmazeta = 1.5;
 	
    Double_t yDepth = inner_R;
    Double_t xiWidth = 2 * yDepth * tan(TMath::Pi()/8);			// 8 pieces of calorimeters, each share 40 degrees
