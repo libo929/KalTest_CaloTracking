@@ -81,7 +81,7 @@ EXVTXKalDetector::EXVTXKalDetector(Int_t m)
    for(int l=0; l<nLayer; ++l) {
 	   
 	   // 8 different orientations
-	   for (int j=0; j<8; j++){
+	   for (int j=0; j<8; j++){									//to be read from GEAR
 			Double_t angle=TMath::Pi()*j/4;
 			TVector3 normal(sin(angle), cos(angle), 0);
 			TVector3 xc(yDepth*sin(angle), yDepth*cos(angle), 0);
