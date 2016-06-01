@@ -67,6 +67,9 @@ ADD_SUBDIRECTORY( ./examples/kaltest )
 # ----------------------------------------------------------------------------
 
 
+#ADD_EXECUTABLE( testcalo src/detector/EXVTXKalTest.cxx )
+#TARGET_LINK_LIBRARIES( testcalo KalTestCalo )
+#INSTALL( TARGETS testcalo DESTINATION bin )
 
 # display some variables and write them to cache
 DISPLAY_STD_VARIABLES()
