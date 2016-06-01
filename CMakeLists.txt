@@ -7,7 +7,7 @@ CMAKE_MINIMUM_REQUIRED( VERSION 2.6 FATAL_ERROR )
 
 
 # project name
-PROJECT( KalTest )
+PROJECT( KalTestCalo )
 
 
 # project version
@@ -44,8 +44,6 @@ ADD_DEFINITIONS( ${LCIO_DEFINITIONS} )
 # macros for generating root dict sources with rootcint
 SET( ROOT_DICT_CINT_DEFINITIONS "-DHANDLE_DICT_EXCEPTIONS=IGNORED_FOR_CINT" )
 INCLUDE( ${ROOT_DICT_MACROS_FILE} )
-
-
 
 ### LIBRARY AND TOOLS #######################################################
 

@@ -24,7 +24,7 @@ MACRO( ADD_KALTEST_EXAMPLE _example )
 
     ADD_DEPENDENCIES( examples ${_example} )
 
-    TARGET_LINK_LIBRARIES( ${_example} KalTest )
+    TARGET_LINK_LIBRARIES( ${_example} KalTestCalo )
 ENDMACRO( ADD_KALTEST_EXAMPLE )
 # ===========================================================================
 
