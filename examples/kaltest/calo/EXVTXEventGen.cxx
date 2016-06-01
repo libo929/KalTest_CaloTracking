@@ -55,8 +55,7 @@ void EXVTXEventGen::Swim(THelicalTrack &heltrk)
    //  Swim track and Make hits
    // ---------------------------
 
-   Double_t dfi       = -dynamic_cast<TVSurface *>(fCradlePtr->At(0))
- lhits.GetEntries                           ->GetSortingPolicy()
+   Double_t dfi       = -dynamic_cast<TVSurface *>(fCradlePtr->At(0))->GetSortingPolicy()
                          / heltrk.GetRho();
 
    Int_t    nlayers   = fCradlePtr->GetEntries();
