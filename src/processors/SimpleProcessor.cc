@@ -1,5 +1,8 @@
 #include "SimpleProcessor.h"
 
+// KalTest
+#include "TKalDetCradle.h"
+
 //#include <marlin/Global.h>
 
 using namespace marlin ;
@@ -18,6 +21,8 @@ void SimpleProcessor::init() {
 
   _nRun = 0 ;
   _nEvt = 0 ;
+
+   TKalDetCradle    toygld; // toy GLD detector
 
 }
 

@@ -4,7 +4,6 @@
 #include "EXVTXEventGen.h"
 #include "EXVTXVKalDetector.h"
 #include "EXVTXVMeasLayer.h"
-//#include "IO/LCReader.h"
 //#include  "grid_mnt/opt__exp_soft/ilc/ilcsoft/sl6/v01-17-09/lcio/v02-07/IOIMPL/LCFactory.h"
 //#include "IMPL/LCCollectionVec.h"
 //#include "EVENT/MCParticle.h"
@@ -39,7 +38,7 @@
 class EXVTXEventGen {
 public:
    EXVTXEventGen(TKalDetCradle &cradle, TObjArray &kalhits)
-             : fCradlePtr(&cradle), fHitBufPtr(&kalhits) {}
+             : fCradlePtr(&cradle), fHitBufPtr(&kalhits) { nEvents=0; }
    virtual ~EXVTXEventGen() {}
 
    THelicalTrack GenerateHelix(Double_t pt,
@@ -48,7 +47,7 @@ public:
    void          Swim(THelicalTrack &heltrk);
 
 
-   void LoadHits();
+   int			 LoadHits();
 
    static void     SetT0(Double_t t0) { fgT0 = t0;   }
    static Double_t GetT0()            { return fgT0; }
@@ -61,6 +60,7 @@ private:
    std::vector<TVector3> fHitVec;      // to store 3-D hits
 
    static Double_t  fgT0;         // t0
+   int				nEvents;	  // Number of Events
 
    ClassDef(EXVTXEventGen,1)   // Event Generator
 };

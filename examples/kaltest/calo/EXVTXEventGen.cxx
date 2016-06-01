@@ -42,7 +42,7 @@ ClassImp(EXVTXEventGen)
 
 Double_t EXVTXEventGen::fgT0 = 14.; // [nsec]
 
-void EXVTXEventGen::LoadHits()
+int EXVTXEventGen::LoadHits()
 {
 	const char* FILEN = "hitsimu.slcio";
 	std::string rootFileBaseName( FILEN , strlen(FILEN)-strlen(".slcio") ) ;
@@ -55,21 +55,27 @@ void EXVTXEventGen::LoadHits()
 	//IN case this method is executed multiple times
 	delete gROOT->GetListOfFiles()->FindObject( FILEN );
 	delete gROOT->GetListOfCanvases()->FindObject("c1");
-
-	int nEvents  = 0;
 	int maxEvt   = 2000;
 
 	IO::LCReader* lcReader = IOIMPL::LCFactory::getInstance()->createLCReader();
-	lcReader->open(FILEN);
+	
+	// debug 
+	std::cout << "File to be opened: ";
+	for (int i=0; i<13; i++){
+		std::cout << FILEN[i];
+	}
+	std::cout << std::endl << std::endl;
+
+
+	lcReader->open( FILEN );
 
 	const double b = 3.5;			// Hardcoded M-field strength 3.5 T
 	EVENT::LCEvent* evt = 0;
 	while ( (evt=lcReader->readNextEvent())!=0 && nEvents < maxEvt ){
-		nEvents++;
-
-		
+		nEvents++;		
 	}
-	std::cout << "In total, there are : " << nEvents << " events." << std::endl;
+
+	return nEvents;
 }
 
 THelicalTrack EXVTXEventGen::GenerateHelix(Double_t pt,
@@ -173,7 +179,7 @@ void EXVTXEventGen::Swim(THelicalTrack &heltrk)
       if (ml.IsActive() && dynamic_cast<const EXVTXVKalDetector &>(ml.GetParent(kFALSE)).IsPowerOn()) {
          ml.ProcessHit(xx, *fHitBufPtr); // create hit point
 		 fHitVec.push_back(xx);
-		 xx.Print();
+		 //xx.Print();
       }
       if (lyr == nlayers - 1) break;
    }
