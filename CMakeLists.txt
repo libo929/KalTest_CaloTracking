@@ -35,6 +35,11 @@ INCLUDE_DIRECTORIES( ${Marlin_INCLUDE_DIRS} )
 LINK_LIBRARIES( ${Marlin_LIBRARIES} )                                                                                      
 ADD_DEFINITIONS( ${Marlin_DEFINITIONS} )  
 
+FIND_PACKAGE( LCIO REQUIRED ) 
+INCLUDE_DIRECTORIES( ${LCIO_INCLUDE_DIRS} )
+LINK_LIBRARIES( ${LCIO_LIBRARIES} )
+ADD_DEFINITIONS( ${LCIO_DEFINITIONS} )
+
 
 # macros for generating root dict sources with rootcint
 SET( ROOT_DICT_CINT_DEFINITIONS "-DHANDLE_DICT_EXCEPTIONS=IGNORED_FOR_CINT" )
