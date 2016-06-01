@@ -1,11 +1,31 @@
 #include "EXVTXEventGen.h"
 #include "EXVTXVKalDetector.h"
 #include "EXVTXVMeasLayer.h"
+#include "IO/LCReader.h"
+#include "IOIMPL/LCFactory.h"
+#include "IMPL/LCCollectionVec.h"
+#include "EVENT/MCParticle.h"
+#include "EVENT/LCEvent.h"
+#include "EVENT/Track.h"
+#include "EVENT/CalorimeterHit.h"
+#include "EVENT/SimCalorimeterHit.h"
+#include "EVENT/SimTrackerHit.h"
+#include "UTIL/LCTOOLS.h"
+#include "Exceptions.h" 
+
+
 #include "TPlane.h"
 #include "TRandom.h"
 
+
+#include <vector>
+#include <string.h>
+#include <TMath.h>
+#include <TROOT.h>
+#include <TSystem.h>
+#include <TClassTable.h>
 #include <iostream>
-// need more headers...
+
 
 //-----------------------------------
 // Track Parameters
@@ -21,6 +41,36 @@
 ClassImp(EXVTXEventGen)
 
 Double_t EXVTXEventGen::fgT0 = 14.; // [nsec]
+
+void EXVTXEventGen::LoadHits()
+{
+	const char* FILEN = "hitsimu.slcio";
+	std::string rootFileBaseName( FILEN , strlen(FILEN)-strlen(".slcio") ) ;
+
+	std::string dirname("");
+	int dirlen = strlen( dirname.c_str() );
+	int baselen = strlen( rootFileBaseName.c_str() );
+	std::string tmpname(rootFileBaseName, dirlen, baselen-dirlen);
+	
+	//IN case this method is executed multiple times
+	delete gROOT->GetListOfFiles()->FindObject( FILEN );
+	delete gROOT->GetListOfCanvases()->FindObject("c1");
+
+	int nEvents  = 0;
+	int maxEvt   = 2000;
+
+	IO::LCReader* lcReader = IOIMPL::LCFactory::getInstance()->createLCReader();
+	lcReader->open(FILEN);
+
+	const double b = 3.5;			// Hardcoded M-field strength 3.5 T
+	EVENT::LCEvent* evt = 0;
+	while ( (evt=lcReader->readNextEvent())!=0 && nEvents < maxEvt ){
+		nEvents++;
+
+		
+	}
+	std::cout << "In total, there are : " << nEvents << " events." << std::endl;
+}
 
 THelicalTrack EXVTXEventGen::GenerateHelix(Double_t pt,
                                         Double_t cosmin,
@@ -55,7 +105,8 @@ void EXVTXEventGen::Swim(THelicalTrack &heltrk)
    //  Swim track and Make hits
    // ---------------------------
 
-   Double_t dfi       = -dynamic_cast<TVSurface *>(fCradlePtr->At(0))->GetSortingPolicy()
+   Double_t dfi       = -dynamic_cast<TVSurface *>(fCradlePtr->At(0)) 
+	                             ->GetSortingPolicy()
                          / heltrk.GetRho();
 
    Int_t    nlayers   = fCradlePtr->GetEntries();
@@ -122,7 +173,7 @@ void EXVTXEventGen::Swim(THelicalTrack &heltrk)
       if (ml.IsActive() && dynamic_cast<const EXVTXVKalDetector &>(ml.GetParent(kFALSE)).IsPowerOn()) {
          ml.ProcessHit(xx, *fHitBufPtr); // create hit point
 		 fHitVec.push_back(xx);
-		 //xx.Print();
+		 xx.Print();
       }
       if (lyr == nlayers - 1) break;
    }
