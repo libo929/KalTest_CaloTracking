@@ -185,7 +185,7 @@ int main (Int_t argc, Char_t **argv)
 
 	  // ------------------------- Dev ------------------------------
 
-	  std::cout << "Number of Events read from LCIO: " << gen.LoadHits() << std::endl << std::endl;
+	  //std::cout << "Number of Events read from LCIO: " << gen.LoadHits() << std::endl << std::endl;
 
 	  // ----------------------- End Dev ----------------------------
 

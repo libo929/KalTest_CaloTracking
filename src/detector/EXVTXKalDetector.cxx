@@ -32,13 +32,12 @@ EXVTXKalDetector::EXVTXKalDetector(Int_t m)
    radlen  = 9.36;
    TMaterial &si = *new TMaterial("VTXSi", "", A, Z, density, radlen, 0.);
    
-   // Dev: Adding a material: Tungsten
+   //Add a material: Tungsten
    A	   = 183.84;
    Z	   = 74;
    density = 19.3;
    radlen =  0.3504; 
    TMaterial &w = *new TMaterial("VTXW", "", A, Z, density, radlen, 0.);
-   // endDev
 
    Bool_t active = EXVTXMeasLayer::kActive;
    Bool_t dummy  = EXVTXMeasLayer::kDummy;
@@ -54,6 +53,9 @@ EXVTXKalDetector::EXVTXKalDetector(Int_t m)
    const std::vector<double_t>& ecalBarrelExtent = ecalBarrel.getExtent();
 
    int nLayer = ecalBarrelLayerLayout.getNLayers();
+   int nStave = ecalBarrel.getSymmetryOrder();
+
+   std::cout << "stave ---: " << nStave << std::endl;
    
    Double_t inner_R = ecalBarrelExtent[0];
    Double_t outer_z = ecalBarrelExtent[3];
@@ -75,36 +77,23 @@ EXVTXKalDetector::EXVTXKalDetector(Int_t m)
    static const Double_t sigmazeta = 1.5;
 	
    Double_t yDepth = inner_R;
-   Double_t xiWidth = 2 * yDepth * tan(TMath::Pi()/8);			// 8 pieces of calorimeters, each share 40 degrees
+   Double_t xiWidth = 2 * yDepth * tan(TMath::Pi()/nStave);
    Double_t zetaWidth = outer_z;
 
-   for(int l=0; l<nLayer; ++l) {
+   for(int iLayer=0; iLayer<nLayer; ++iLayer) {
 	   
-	   // 8 different orientations
-	   for (int j=0; j<8; j++){									//to be read from GEAR
-			Double_t angle=TMath::Pi()*j/4;
+	   for (int iStave=0; iStave<nStave; ++iStave) {
+			Double_t angle=2*TMath::Pi()*iStave/nStave;
 			TVector3 normal(sin(angle), cos(angle), 0);
 			TVector3 xc(yDepth*sin(angle), yDepth*cos(angle), 0);
 			
 			Add(new EXVTXMeasLayer(si, w, xc, normal, xc.Perp(), xiWidth, zetaWidth, 0., sigmaxi, sigmazeta));
 	   }
 
-	   
-	   /** 
-	   TVector3 normal(0, 1, 0);
-       TVector3 xc(0, -yDepth, 0);
-	   TVector3 xc1(0, yDepth, 0);
-
-	   Add(new EXVTXMeasLayer(si, w, xc, normal, xc.Perp(), xiWidth, zetaWidth, 0.,
-	   //Add(new EXVTXMeasLayer(air, si, xc, normal, xc.Perp(), 200+l*30, 200+l*30, 0.,
-				              sigmaxi, sigmazeta));       
-
-	   Add(new EXVTXMeasLayer(si, w, xc1, normal, xc.Perp(), xiWidth, zetaWidth, 0., sigmaxi, sigmazeta));
-	   **/
-
-	   yDepth += ecalBarrelLayerLayout.getThickness(l);
-	   xiWidth = 2 * yDepth * tan(TMath::Pi()/8);
+	   yDepth += ecalBarrelLayerLayout.getThickness(iLayer);
+	   xiWidth = 2 * yDepth * tan(TMath::Pi()/nStave);
 	}
+
    SetOwner();			
 }
 
